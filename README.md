@@ -1,162 +1,147 @@
-# ThaiSarc_V1: A Comprehensive Dataset for Sarcasm Detection in Thai Political News Headlines
+# ThaiSarc_V1: Sarcasm Detection Dataset for Thai Political News Headlines
 
-Welcome to **ThaiSarc_V1**, a groundbreaking resource specifically designed for sarcasm detection in Thai political news headlines. This project represents a significant milestone in Natural Language Processing (NLP) for Thai-language tasks, combining state-of-the-art deep learning and generative AI models to address the unique challenges of sarcasm identification in the Thai context. ThaiSarc_V1 not only contributes to the advancement of computational linguistics but also fosters media literacy by enabling nuanced understanding of sarcastic language in political discourse.
+ThaiSarc_V1 is an open dataset for sarcasm detection in Thai political news headlines, built as part of a deep learning research project at NIDA. The core question was whether discriminative models or generative models handle Thai sarcasm better — and the answer turned out to depend more on language specialization than model size.
+
+The dataset contains 1,028 headlines from 12 Thai news sources, balanced between 514 sarcastic and 514 non-sarcastic samples. Four annotators labeled the data after a structured two-hour training session, reaching 92% inter-annotator agreement. This repository includes the full dataset, benchmark results, and materials for reproducing the experiments.
 
 ---
 
 ## 🌟 Key Features
-- **Balanced Dataset**: ThaiSarc_V1 consists of 1,028 carefully curated Thai political news headlines, evenly split into 514 sarcastic and 514 non-sarcastic samples to ensure unbiased analysis.
-- **High Annotation Reliability**: A mutual agreement rate of 92% among annotators highlights the robustness of the dataset.
-- **Novel Dataset**: The first publicly available dataset focusing on sarcasm detection in Thai political news headlines, offering a valuable resource for Thai NLP research.
-- **Comprehensive Benchmarks**: Evaluation includes cutting-edge discriminative models (e.g., WangchanBERTa, CNN-BiLSTM) and generative models (e.g., fine-tuned GPT-4o).
-- **Broad Applications**: Designed for sentiment analysis, content moderation, and improving media literacy.
+
+- **Balanced by design**: 514 sarcastic and 514 non-sarcastic headlines — no class imbalance to work around
+- **Reliable annotation**: 92% inter-annotator agreement, using an adapted version of Hiai and Shimada (2016)
+- **Full model comparison**: benchmarked across five discriminative models and four GPT-based generative models
+- **Open baseline**: available for anyone working on Thai NLP, sarcasm detection, or related classification tasks
 
 ---
 
 ## 📋 Dataset Overview
 
-| **Class**        | **Number of Items** | **Total Words** | **Average Length** | **Min Length** | **Max Length** |
-|-------------------|---------------------|-----------------|---------------------|----------------|----------------|
-| **Sarcastic**     | 514                 | 8,709           | 16.94              | 7              | 27             |
-| **Non-Sarcastic** | 514                 | 7,950           | 15.47              | 8              | 28             |
+| **Class**         | **Count** | **Total Words** | **Avg Length** | **Min** | **Max** |
+|-------------------|-----------|-----------------|----------------|---------|---------|
+| **Sarcastic**     | 514       | 8,709           | 16.94          | 7       | 27      |
+| **Non-Sarcastic** | 514       | 7,950           | 15.47          | 8       | 28      |
 
-The dataset was collected on **December 19, 2024**, using [WebScraper.io](https://webscraper.io) from 12 prominent Thai news agency websites. Each headline was reviewed, annotated, and validated for sarcasm using an adaptation of the sarcasm detection framework by Hiai and Shimada (2016). The careful preprocessing and annotation processes ensure high-quality data for training and testing models.
+Collected on **December 19, 2024** via [WebScraper.io](https://webscraper.io) from 12 Thai political news websites. Headlines were reviewed and annotated following the sarcasm classification framework of Hiai and Shimada (2016).
 
-### 📰 News Agencies
+### 📰 News Sources
 
-ThaiSarc_V1 headlines were sourced from the following news agencies:
-
-| **News Agency**     | **Website URL**                                               |
-|---------------------|-------------------------------------------------------------|
-| ไทยรัฐ (Thairath)      | [https://www.thairath.co.th/news/politic](https://www.thairath.co.th/news/politic) |
-| มติชน (Matichon)      | [https://www.matichon.co.th/politics](https://www.matichon.co.th/politics) |
-| ประชาไท (Prachatai)    | [https://prachatai.com/category/politics](https://prachatai.com/category/politics) |
-| The Matter           | [https://thematter.co/category/social/politics](https://thematter.co/category/social/politics) |
-| ไทยพีบีเอส (Thai PBS)  | [https://www.thaipbs.or.th/news/politics](https://www.thaipbs.or.th/news/politics) |
-| MCOT                | [https://tna.mcot.net/category/politics](https://tna.mcot.net/category/politics) |
-| เดลินิวส์ (Daily News) | [https://www.dailynews.co.th/news_group/politics](https://www.dailynews.co.th/news_group/politics) |
-| ข่าวสด (Khaosod)      | [https://www.khaosod.co.th/politics](https://www.khaosod.co.th/politics) |
-| ไทยโพสต์ (Thai Post)  | [https://www.thaipost.net/politics](https://www.thaipost.net/politics) |
-| แนวหน้า (Naewna)      | [https://www.naewna.com/politics](https://www.naewna.com/politics) |
-| ผู้จัดการ (MGR Online)| [https://mgronline.com/politics](https://mgronline.com/politics) |
-| อีจัน (Ejan)         | [https://www.ejan.co/category/politics](https://www.ejan.co/category/politics) |
+| **News Agency**        | **URL**                                                                 |
+|------------------------|-------------------------------------------------------------------------|
+| ไทยรัฐ (Thairath)       | https://www.thairath.co.th/news/politic                                 |
+| มติชน (Matichon)        | https://www.matichon.co.th/politics                                     |
+| ประชาไท (Prachatai)     | https://prachatai.com/category/politics                                 |
+| The Matter              | https://thematter.co/category/social/politics                           |
+| ไทยพีบีเอส (Thai PBS)   | https://www.thaipbs.or.th/news/politics                                 |
+| MCOT                    | https://tna.mcot.net/category/politics                                  |
+| เดลินิวส์ (Daily News)  | https://www.dailynews.co.th/news_group/politics                         |
+| ข่าวสด (Khaosod)        | https://www.khaosod.co.th/politics                                      |
+| ไทยโพสต์ (Thai Post)    | https://www.thaipost.net/politics                                       |
+| แนวหน้า (Naewna)        | https://www.naewna.com/politics                                         |
+| ผู้จัดการ (MGR Online)  | https://mgronline.com/politics                                          |
+| อีจัน (Ejan)            | https://www.ejan.co/category/politics                                   |
 
 ---
 
-## 📥 Download and Usage
+## 📥 Usage
 
-Access ThaiSarc_V1 on GitHub: [ThaiSarc_V1 GitHub Repository](https://github.com/KunakornMart/ThaiSarc_V1)
+```bash
+git clone https://github.com/KunakornMart/ThaiSarc_V1.git
+```
 
-### Steps to Use the Dataset:
+```python
+import pandas as pd
 
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/KunakornMart/ThaiSarc_V1.git
-   ```
+data = pd.read_csv("path/to/ThaiSarc_V1.csv")
+print(data.head())
+```
 
-2. **Load the Dataset**:
-   ```python
-   import pandas as pd
-
-   # Load the dataset
-   data = pd.read_csv('path/to/ThaiSarc_V1.csv')
-
-   # Display the first 5 rows
-   print(data.head())
-   ```
-
-3. **Preprocess and Tokenize**:
-   Utilize libraries such as **PyThaiNLP** for tokenization and processing Thai text effectively.
+Thai text tokenization can be handled with [PyThaiNLP](https://github.com/PyThaiNLP/pythainlp). The experiments here used the **NewMM** tokenizer, which processed all 1,028 headlines in under 1 second and worked well for this headline-length text.
 
 ---
 
-## 🎯 Objectives
+## 🎯 Research Questions
 
-The primary goal of this project is to compare the efficiency of **discriminative deep learning models** (e.g., CNN, BiLSTM, WangchanBERTa) and **generative AI models** (e.g., GPT-4o) in sarcasm detection, providing a comprehensive evaluation of their strengths and weaknesses.
+Three things this project set out to explore:
 
-This study also aims to answer key research questions:
-1. How effectively do discriminative models perform in sarcasm detection for Thai political news headlines?
-2. Can generative AI models, such as GPT-4o, surpass discriminative models in identifying sarcasm?
-3. What are the implications of applying these models to real-world tasks, such as sentiment analysis and misinformation detection?
+1. How well do discriminative deep learning models perform on Thai sarcasm classification?
+2. Do generative models (GPT-based) improve meaningfully with fine-tuning on this task?
+3. Does training on Thai-specific data give encoder models an edge over larger, general-purpose models?
 
----
-
-## 🚀 Models and Benchmarks
-
-### Discriminative Models
-- **WangchanBERTa**: Tailored for Thai language processing, this transformer-based model achieved an accuracy of **86.57%** and F1-score of **87.11%**.
-- **CNN-BiLSTM Hybrid**: Developed to combine CNN’s pattern recognition with BiLSTM’s sequential understanding, achieving an accuracy of **79.10%** and F1-score of **77.96%**.
-- **CNN**: Delivered an accuracy of **74.90%** and F1-score of **74.72%**.
-- **GRU**: Achieved an accuracy of **72.72%** and F1-score of **64.10%**.
-- **BiLSTM**: Reached an accuracy of **76.31%** and F1-score of **76.82%**.
-
-### Generative Models
-- **Fine-Tuned GPT-4o**: Demonstrated strong performance with an accuracy of **81.11%** and F1-score of **89.17%**.
-- **Non-Fine-Tuned GPT-4o**: Delivered moderate performance with an accuracy of **67.09%** and F1-score of **52.33%**.
-- **GPT-4o-mini**: Achieved an accuracy of **60.00%** and F1-score of **31.11%**.
-- **GPT-3.5-turbo**: Reached an accuracy of **54.83%** and F1-score of **14.63%**.
-
-### Evaluation Metrics
-Key metrics included **Accuracy**, **Precision**, **Recall**, and **F1-Score**, ensuring a comprehensive analysis of model performance.
+Short answer to the third one: yes, clearly.
 
 ---
 
 ## 🔧 Methodology
 
-### Data Preparation
-- Tokenization: Implemented with **NewMM** (PyThaiNLP), achieving **93% accuracy** and processing 1,028 headlines in **3.25 seconds**.
-- Preprocessing: Headlines were normalized and encoded for model training.
+**Data collection**
+Headlines were scraped from 12 news sites using WebScraper.io, targeting political news sections. Stratified random sampling was used to pull roughly equal numbers from each source.
 
-### Annotation Process
-- Conducted by four trained annotators.
-- Achieved high inter-annotator reliability (92%) through consensus discussions.
+**Annotation**
+Four annotators completed a two-hour training session before labeling, using the sarcasm classification framework from Hiai and Shimada (2016). A separate set of 100 headlines was used for calibration. Final inter-annotator agreement on the main dataset: **92%**.
 
-### Experimental Settings
-- **Discriminative Models**: Implemented using TensorFlow 2.17.1 on Google Colab with GPU acceleration.
-- **Generative Models**: Fine-tuned on GPT-4o (latest version) for sarcasm detection.
+**Train/validation/test split**
+70% train / 15% validation / 15% test (719 / 154 / 155 headlines).
+
+**Discriminative model training**
+All models trained in TensorFlow 2.17.1 on Google Colab with GPU. Optimizer: Adam (lr=0.0005), batch size 32, up to 20 epochs with early stopping on val_loss (patience=3). Results reported as mean ± SD over 5 runs.
+
+**Generative model evaluation**
+GPT-based models tested via OpenAI API. Fine-tuned model: `gpt-4o-2024-08-06`, trained with lr=0.1, batch size 16, 4 epochs.
 
 ---
 
 ## 📊 Results
 
-### Discriminative Models Performance
-| Model            | Accuracy (%) | Precision (%) | Recall (%) | F1-Score (%) |
-|-------------------|-------------|---------------|------------|--------------|
-| WangchanBERTa    | 86.57       | 84.12         | 90.62      | 87.11        |
-| CNN-BiLSTM       | 79.10       | 78.11         | 78.25      | 77.96        |
-| CNN              | 74.90       | 76.46         | 73.94      | 74.72        |
-| GRU              | 72.72       | 88.47         | 51.79      | 64.10        |
-| BiLSTM           | 76.31       | 73.88         | 80.34      | 76.82        |
+### Discriminative Models (mean ± SD, 5 runs)
 
-### Generative Models Performance
-| Model                       | Accuracy (%) | Precision (%) | Recall (%) | F1-Score (%) |
-|-----------------------------|-------------|---------------|------------|--------------|
-| Fine-Tuned GPT-4o           | 81.11       | 81.39         | 98.59      | 89.17        |
-| GPT-4o (non-fine-tuned)     | 67.09       | 90.32         | 36.84      | 52.33        |
-| GPT-4o-mini                 | 60.00       | 100.00        | 18.42      | 31.11        |
-| GPT-3.5-turbo               | 54.83       | 100.00        | 7.89       | 14.63        |
+| Model          | Accuracy       | Precision      | Recall         | F1-Score       |
+|----------------|----------------|----------------|----------------|----------------|
+| WangchanBERTa  | 86.57 ± 2.25%  | 84.12 ± 4.19%  | 90.62 ± 3.91%  | 87.11 ± 2.02%  |
+| CNN-BiLSTM     | 79.10 ± 1.39%  | 78.11 ± 3.09%  | 78.25 ± 5.81%  | 77.96 ± 1.92%  |
+| BiLSTM         | 76.31 ± 1.35%  | 73.88 ± 2.76%  | 80.34 ± 4.81%  | 76.82 ± 1.37%  |
+| CNN            | 74.90 ± 1.87%  | 76.46 ± 4.43%  | 73.94 ± 7.87%  | 74.72 ± 2.38%  |
+| GRU            | 72.72 ± 4.12%  | 88.47 ± 4.88%  | 51.79 ± 12.43% | 64.10 ± 8.82%  |
+
+### Generative Models
+
+| Model                    | Accuracy | Precision | Recall | F1-Score |
+|--------------------------|----------|-----------|--------|----------|
+| Fine-Tuned GPT-4o        | 81.11%   | 81.39%    | 98.59% | 89.17%   |
+| GPT-4o (non-fine-tuned)  | 67.09%   | 90.32%    | 36.84% | 52.33%   |
+| GPT-4o-mini              | 60.00%   | 100.00%   | 18.42% | 31.11%   |
+| GPT-3.5-turbo            | 54.83%   | 100.00%   | 7.89%  | 14.63%   |
 
 ---
 
-## 📈 Applications
+## 🔍 Main Takeaway
 
-- **Media Literacy**: Enhances understanding of sarcasm in Thai political discourse.
-- **NLP Research**: Serves as a benchmark for testing and improving sarcasm detection models.
-- **Content Moderation**: Assists in filtering sarcastic or misleading content in online platforms.
-- **Sentiment Analysis**: Supports improved sentiment categorization in Thai language processing.
-- **Combatting Misinformation**: Provides tools to identify sarcasm in political narratives, reducing the spread of false information.
-- **Future Work**: Potential areas include expanding the dataset, incorporating multimodal sarcasm detection (e.g., combining text and images), and applying models to broader domains beyond politics.
+WangchanBERTa came out on top overall — 86.57% accuracy and 87.11% F1, better than every other model including fine-tuned GPT-4o. The fine-tuned GPT-4o had the highest F1 (89.17%) driven by very high recall (98.59%), but its accuracy lagged behind at 81.11%, meaning it over-predicted sarcasm more than WangchanBERTa did.
+
+The pattern across generative models is consistent: without fine-tuning, GPT-based models struggled badly on Thai sarcasm (GPT-3.5 F1: 14.63%). Fine-tuning helped substantially, but Thai-specific pretraining still gave WangchanBERTa a clearer overall edge for this dataset.
+
+---
+
+## 📈 Possible Uses
+
+- Thai NLP benchmarking and model comparison
+- Sarcasm and irony detection research
+- Content moderation and tone classification experiments
+- Baseline for future work on broader Thai political discourse
 
 ---
 
 ## 👥 Contributors
-- **Kunakorn Pruksakorn**
-- **Niwat Wuttisrisiriporn**
-- **Hafiz Benraheem**
-- **Chalard Lertkittisuk**
-- **Advisor**: Thitirat Siriborvornratanakul
+
+- Kunakorn Pruksakorn
+- Niwat Wuttisrisiriporn
+- Hafiz Benraheem
+- Chalard Lertkittisuk
+
+**Advisor**: Thitirat Siriborvornratanakul
 
 ---
 
 ## 📧 Contact
-For inquiries, please contact [KunakornMart](https://github.com/KunakornMart).
+
+Questions or collaboration: [KunakornMart](https://github.com/KunakornMart)
